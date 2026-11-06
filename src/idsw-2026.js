@@ -1,0 +1,300 @@
+// IDSW 2026 schedule, same JSON as the idsw.dev schedule data. Loaded on first run.
+export default {
+  "timezone": "Asia/Jakarta",
+  "days": [
+    {
+      "day": "Day 1",
+      "date": "2026-11-21",
+      "label": "21 November 2026",
+      "sessions": [
+        {
+          "start": "08:00",
+          "end": "09:00",
+          "title": "Registration",
+          "speaker": null,
+          "kind": "registration",
+          "pending": null,
+          "duration": 60,
+          "transition": 0
+        },
+        {
+          "start": "09:00",
+          "end": "09:15",
+          "title": "Opening",
+          "speaker": null,
+          "kind": "opening",
+          "pending": null,
+          "duration": 15,
+          "transition": 5
+        },
+        {
+          "start": "09:20",
+          "end": "09:40",
+          "title": "Sponsor Talk A",
+          "speaker": null,
+          "kind": "sponsor",
+          "pending": "speaker",
+          "duration": 20,
+          "transition": 5
+        },
+        {
+          "start": "09:45",
+          "end": "10:30",
+          "title": "Run your organization with agentic AI powered by local LLMs, enabling faster, smarter, and more secure workflows at scale",
+          "speaker": "Muqorrobin Marufi Syihab (Robin)",
+          "kind": "keynote",
+          "pending": null,
+          "duration": 45,
+          "transition": 5
+        },
+        {
+          "start": "10:35",
+          "end": "11:05",
+          "title": "The System Worked. The Organization Didn’t.",
+          "speaker": "Iman Fattah",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "11:10",
+          "end": "11:40",
+          "title": "Before and After Agentic Coding in a Heavily Regulated Financial Industry: Did We Actually Get Faster?",
+          "speaker": "Thomas Edwin Santosa",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 0
+        },
+        {
+          "start": "11:40",
+          "end": "12:00",
+          "title": "Sponsor Talk B",
+          "speaker": null,
+          "kind": "sponsor",
+          "pending": "speaker",
+          "duration": 20,
+          "transition": 0
+        },
+        {
+          "start": "12:00",
+          "end": "13:30",
+          "title": "Lunch Break",
+          "speaker": null,
+          "kind": "lunch",
+          "pending": null,
+          "duration": 90,
+          "transition": 0
+        },
+        {
+          "start": "13:30",
+          "end": "14:15",
+          "title": "Inference Engineering: Innerworking of Fast LLM Serving",
+          "speaker": "Mustafa Zaki Assagaf",
+          "kind": "keynote",
+          "pending": null,
+          "duration": 45,
+          "transition": 5
+        },
+        {
+          "start": "14:20",
+          "end": "14:50",
+          "title": "import zerotrust: Network Security as a Dependency, Not a Ticket",
+          "speaker": "Affan Basalamah",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "14:55",
+          "end": "15:25",
+          "title": "From Air to Packets and Back: How Voice Travels Between Devices",
+          "speaker": "Yoseph Bernandus",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "15:30",
+          "end": "16:30",
+          "title": "Coffee Break",
+          "speaker": null,
+          "kind": "coffee",
+          "pending": null,
+          "duration": 60,
+          "transition": 0
+        },
+        {
+          "start": "16:30",
+          "end": "17:00",
+          "title": "From Chatbot to Analytics Agent: What Broke When LLMs Met Our Real BigQuery Data",
+          "speaker": "Faiq Miftakhul Falakh",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "17:05",
+          "end": "18:05",
+          "title": "Discussion panel",
+          "speaker": null,
+          "kind": "panel",
+          "pending": "subject",
+          "duration": 60,
+          "transition": 0
+        },
+        {
+          "start": "18:05",
+          "end": "18:15",
+          "title": "Closing",
+          "speaker": null,
+          "kind": "closing",
+          "pending": null,
+          "duration": 10,
+          "transition": 0
+        }
+      ]
+    },
+    {
+      "day": "Day 2",
+      "date": "2026-11-22",
+      "label": "22 November 2026",
+      "sessions": [
+        {
+          "start": "09:00",
+          "end": "09:30",
+          "title": "Registration",
+          "speaker": null,
+          "kind": "registration",
+          "pending": null,
+          "duration": 30,
+          "transition": 0
+        },
+        {
+          "start": "09:30",
+          "end": "09:40",
+          "title": "Opening",
+          "speaker": null,
+          "kind": "opening",
+          "pending": null,
+          "duration": 10,
+          "transition": 0
+        },
+        {
+          "start": "09:40",
+          "end": "10:00",
+          "title": "Sponsor Talk C",
+          "speaker": null,
+          "kind": "sponsor",
+          "pending": "speaker",
+          "duration": 20,
+          "transition": 5
+        },
+        {
+          "start": "10:05",
+          "end": "10:50",
+          "title": "Pesan Systems Engineering Modern dalam Membangun Purwarupa AI ke Sistem Produksi yang Aman, Teruji, dan Layak Dipercaya",
+          "speaker": "Mansur Maturidi Arief",
+          "kind": "keynote",
+          "pending": null,
+          "duration": 45,
+          "transition": 5
+        },
+        {
+          "start": "10:55",
+          "end": "11:25",
+          "title": "(Human) Attention is All You Need",
+          "speaker": "Zain Fathoni",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "11:30",
+          "end": "12:00",
+          "title": "Front-End Job is Dying: What I Own as a Design Engineer",
+          "speaker": "theodorusclarence",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 0
+        },
+        {
+          "start": "12:00",
+          "end": "13:30",
+          "title": "Lunch Break",
+          "speaker": null,
+          "kind": "lunch",
+          "pending": null,
+          "duration": 90,
+          "transition": 0
+        },
+        {
+          "start": "13:30",
+          "end": "14:15",
+          "title": "Keynote",
+          "speaker": "Eko Kurniawan Khannedy",
+          "kind": "keynote",
+          "pending": "title",
+          "duration": 45,
+          "transition": 5
+        },
+        {
+          "start": "14:20",
+          "end": "15:20",
+          "title": "Lightning talks",
+          "speaker": null,
+          "kind": "lightning",
+          "pending": "order",
+          "duration": 60,
+          "transition": 10
+        },
+        {
+          "start": "15:30",
+          "end": "16:30",
+          "title": "Coffee Break",
+          "speaker": null,
+          "kind": "coffee",
+          "pending": null,
+          "duration": 60,
+          "transition": 0
+        },
+        {
+          "start": "16:30",
+          "end": "17:00",
+          "title": "Building a Browser Engine with Swift and Guardrails for AI Assistance",
+          "speaker": "Kresna Satya",
+          "kind": "talk",
+          "pending": null,
+          "duration": 30,
+          "transition": 5
+        },
+        {
+          "start": "17:05",
+          "end": "17:50",
+          "title": "Something related to LLM to binary/machine code",
+          "speaker": "Aria Ghora",
+          "kind": "keynote",
+          "pending": "title",
+          "duration": 45,
+          "transition": 5
+        },
+        {
+          "start": "17:55",
+          "end": "18:15",
+          "title": "Closing",
+          "speaker": null,
+          "kind": "closing",
+          "pending": null,
+          "duration": 20,
+          "transition": 0
+        }
+      ]
+    }
+  ]
+}

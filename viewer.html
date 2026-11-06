@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage</title>
+  <link rel="stylesheet" href="src/viewer.css">
+  <script type="module" src="src/viewer.js"></script>
+</head>
+<body>
+  <main id="stage" class="stage" data-phase="idle">
+    <header class="top">
+      <div class="now">
+        <p id="kind" class="kind"></p>
+        <p id="title" class="title"></p>
+        <p id="speaker" class="speaker"></p>
+      </div>
+      <p id="clock" class="clock"></p>
+    </header>
+    <div class="timer-area">
+      <p id="timer" class="timer">--:--</p>
+      <p id="status" class="status"></p>
+    </div>
+    <div class="progress"><div id="progress"></div></div>
+    <div id="message" class="message" hidden><p id="message-text"></p></div>
+    <footer id="next" class="next"></footer>
+  </main>
+  <div id="flash" class="flash"></div>
+  <div id="blackout" class="blackout" hidden></div>
+  <p id="hint" class="hint" hidden>Double-click or press F for fullscreen</p>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rundown Timer</title>
+  <link rel="stylesheet" href="src/controller.css">
+  <script type="module" src="src/controller.js"></script>
+</head>
+<body>
+  <div class="app">
+    <section class="control" aria-label="Timer controls">
+      <header class="bar">
+        <h1>Rundown Timer <span id="clock" class="clock"></span></h1>
+        <div class="bar-actions">
+          <button type="button" id="open-1">Open screen 1</button>
+          <button type="button" id="open-2">Open screen 2</button>
+          <button type="button" id="settings-open">Settings</button>
+        </div>
+      </header>
+
+      <div class="preview">
+        <iframe id="preview" src="viewer.html?preview" title="Stage preview" tabindex="-1"></iframe>
+        <span class="preview-label">Stage preview</span>
+      </div>
+
+      <div class="now">
+        <div class="now-text">
+          <p id="now-kind" class="now-kind"></p>
+          <p id="now-title" class="now-title"></p>
+          <p id="now-times" class="now-times"></p>
+        </div>
+        <span id="delta" class="delta"></span>
+      </div>
+
+      <div class="transport">
+        <button type="button" id="prev" title="Previous segment (←)">◀ Prev</button>
+        <button type="button" id="toggle" class="primary" title="Start or pause (Space)">Start</button>
+        <button type="button" id="next" title="Next segment (→), Shift+→ to load and start">Next ▶</button>
+      </div>
+      <div class="adjust">
+        <div class="split" data-sign="-1">
+          <button type="button" class="split-toggle" aria-haspopup="menu" aria-expanded="false" aria-label="Remove other amounts"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" data-adjust="-60000" title="Remove 1 minute (−)">−1m</button>
+          <div class="split-menu" role="menu" aria-label="Remove time" hidden></div>
+        </div>
+        <button type="button" id="reset" title="Back to the full duration">Reset</button>
+        <div class="split" data-sign="1">
+          <button type="button" data-adjust="60000" title="Add 1 minute (+)">+1m</button>
+          <button type="button" class="split-toggle" aria-haspopup="menu" aria-expanded="false" aria-label="Add other amounts"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="split-menu" role="menu" aria-label="Add time" hidden></div>
+        </div>
+      </div>
+
+      <form id="message-form" class="message">
+        <label for="message-input">Message to the stage</label>
+        <div class="message-row">
+          <input id="message-input" autocomplete="off" placeholder="Enter shows it now, Shift+Enter adds it to the queue">
+          <button type="submit">Show now</button>
+          <button type="button" id="message-queue">Add to queue</button>
+        </div>
+        <div id="message-live" class="message-live" hidden>
+          <p id="message-live-text"></p>
+          <button type="button" id="message-hide" title="Esc">Hide</button>
+        </div>
+        <div id="queue-section" class="queue-section" hidden>
+          <div class="queue-head">
+            <span id="queue-count"></span>
+            <button type="button" id="queue-next" title="N">Show next</button>
+          </div>
+          <ol id="queue" class="queue"></ol>
+        </div>
+        <div id="presets" class="presets"></div>
+      </form>
+
+      <div class="stage-toggles">
+        <button type="button" id="flash" title="F">Flash stage</button>
+        <button type="button" id="blackout" aria-pressed="false" title="B">Blackout stage</button>
+      </div>
+
+      <p class="keys">
+        <kbd>Space</kbd> start/pause · <kbd>←</kbd> <kbd>→</kbd> prev/next · <kbd>+</kbd> <kbd>−</kbd> 1 min ·
+        <kbd>N</kbd> show next queued message · <kbd>Esc</kbd> hide message · <kbd>F</kbd> flash · <kbd>B</kbd> blackout
+      </p>
+    </section>
+
+    <div id="splitter" class="splitter" role="separator" aria-orientation="vertical" aria-label="Resize panels"
+      tabindex="0" title="Drag to resize, double-click to reset"></div>
+
+    <section class="rundown" aria-label="Rundown">
+      <header class="bar">
+        <nav id="days" class="days" aria-label="Days"></nav>
+        <div class="bar-actions">
+          <button type="button" id="edit" aria-pressed="false">Edit</button>
+          <button type="button" id="import-open">Import</button>
+          <button type="button" id="export">Export</button>
+        </div>
+      </header>
+      <div id="day-edit" class="day-edit" hidden>
+        <label>Day <input id="day-name"></label>
+        <label>Label <input id="day-label" placeholder="21 November 2026"></label>
+        <button type="button" id="day-delete" class="danger">Delete day</button>
+      </div>
+      <ol id="items" class="items"></ol>
+      <button type="button" id="add-item" class="add-item" hidden>+ Add segment</button>
+    </section>
+  </div>
+
+  <dialog id="import-dialog">
+    <form method="dialog" class="dialog">
+      <h2>Import rundown</h2>
+      <p>
+        Choose the idsw.dev schedule JSON or a saved page, or paste text copied from the website schedule,
+        a Google Docs or Sheets table, or one segment per line (<code>10:35 - 11:05 Title</code>).
+      </p>
+      <input type="file" id="import-file" accept=".json,.html,.htm,.txt,.csv,.tsv">
+      <textarea id="import-text" rows="12" spellcheck="false" placeholder="Paste here"></textarea>
+      <p id="import-summary" class="summary"></p>
+      <div class="dialog-actions">
+        <button value="cancel">Cancel</button>
+        <button id="import-apply" value="apply" class="primary" disabled>Replace rundown</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settings-dialog">
+    <form method="dialog" class="dialog">
+      <h2>Settings</h2>
+      <div class="field-row">
+        <label>Turn yellow at <input type="number" id="setting-yellow" min="0" step="0.5"> min left</label>
+        <label>Turn red at <input type="number" id="setting-red" min="0" step="0.5"> min left</label>
+      </div>
+      <p class="help">If a segment is not longer than a threshold, that colour starts at half time instead, e.g. a 5-minute talk turns yellow at 2:30.</p>
+      <div class="field-row">
+        <label>Screen 1 shows <select id="setting-screen-1"></select></label>
+        <label>Screen 2 shows <select id="setting-screen-2"></select></label>
+      </div>
+      <p class="help">Messages appear on both screens. The preview shows screen 1 with everything.</p>
+      <label>Message presets, one per line
+        <textarea id="setting-presets" rows="7"></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="restore-idsw" class="danger">Restore IDSW 2026 rundown</button>
+        <span class="spacer"></span>
+        <button value="cancel">Cancel</button>
+        <button value="save" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
