@@ -1,5 +1,5 @@
-// Timekeeper's window. It owns the state: every change goes through commit(),
-// which saves to localStorage, and the stage windows render from there.
+// Timekeeper's window. Every change to the state goes through commit(), which
+// saves to localStorage. The stage windows render from there.
 import * as core from './core.js'
 import { loadState, saveState, onExternalChange } from './store.js'
 import { htmlToText, readRundown } from './import.js'
@@ -49,6 +49,7 @@ function render({ list = true } = {}) {
   renderDays()
   if (list) renderItems()
   renderLive()
+  renderPreview()
   renderMessage()
   tick()
 }
@@ -116,7 +117,7 @@ function itemRow(item) {
   )
 }
 
-// "09:47 +2 · 47m": actual start, minutes late, and how long it ran.
+// Actual start, minutes late and run length, for example "09:47 +2 · 47m".
 function actual(item, log) {
   if (!log) return null
   const midnight = new Date(log.start).setHours(0, 0, 0, 0)
@@ -158,6 +159,12 @@ function editRow(item) {
       h('button', { type: 'button', class: 'danger', onclick: () => removeItem(item) }, 'Delete'),
     ),
   )
+}
+
+function renderPreview() {
+  for (const n of [1, 2]) {
+    $(`preview-caption-${n}`).textContent = `Screen ${n} · ${core.LAYOUTS[state.settings.screens[n]] ?? core.LAYOUTS.full}`
+  }
 }
 
 function renderLive() {
@@ -297,7 +304,7 @@ async function openScreen(n) {
       screen.resizeTo(target.availWidth, target.availHeight)
     }
   } catch {
-    // Permission denied or not supported: drag the window to the screen instead.
+    // Without permission or browser support, the timekeeper drags the window instead.
   }
 }
 
@@ -315,7 +322,7 @@ $('toggle').addEventListener('click', () => commit((s, now) => core.toggle(s, no
 $('prev').addEventListener('click', () => commit((s, now) => core.step(s, -1, now)))
 $('next').addEventListener('click', (event) => commit((s, now) => core.step(s, 1, now, { autostart: event.shiftKey })))
 $('reset').addEventListener('click', () => commit((s) => core.reset(s)))
-// Split buttons: the main part adds or removes 1 minute, the chevron opens a menu of amounts.
+// In each split button, the main part adds or removes 1 minute and the chevron opens a menu of amounts.
 const AMOUNTS = [1, 10, 30, 60, 300, 600, 1200, 1800] // seconds
 const amountLabel = (seconds) => (seconds < 60 ? `${seconds}s` : `${seconds / 60}m`)
 
@@ -357,7 +364,7 @@ for (const split of document.querySelectorAll('.split')) {
       }, `${sign < 0 ? '−' : '+'} ${amountLabel(seconds)}`),
     ),
   )
-  // A click from the keyboard has detail 0; then move focus into the menu.
+  // A click from the keyboard has detail 0. In that case focus moves into the menu.
   toggle.addEventListener('click', (event) => (menu.hidden ? openMenu(split, { focus: event.detail === 0 }) : closeMenus()))
   // The global shortcuts ignore keys pressed inside a menu, so Space and Enter pick an item.
   menu.addEventListener('keydown', (event) => {
@@ -531,6 +538,22 @@ addEventListener('keydown', (event) => {
   document.activeElement?.blur()
   action()
 })
+
+// Which stage screens the preview shows. A per-device preference, like the splitter.
+const PREVIEW_KEY = 'rundown-timer:preview'
+function showPreview(which) {
+  $('previews').dataset.show = which
+  for (const button of document.querySelectorAll('[data-preview]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.preview === which))
+  }
+}
+showPreview(['1', '2', 'both'].includes(localStorage.getItem(PREVIEW_KEY)) ? localStorage.getItem(PREVIEW_KEY) : '1')
+for (const button of document.querySelectorAll('[data-preview]')) {
+  button.addEventListener('click', () => {
+    localStorage.setItem(PREVIEW_KEY, button.dataset.preview)
+    showPreview(button.dataset.preview)
+  })
+}
 
 // Panel splitter. The width is a per-device preference, so it lives outside the shared state.
 const WIDTH_KEY = 'rundown-timer:control-width'

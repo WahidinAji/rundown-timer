@@ -1,4 +1,4 @@
-// Stage screen. Read-only: it renders whatever the controller last saved.
+// Stage screen. It never writes state and renders whatever the controller last saved.
 import * as core from './core.js'
 import { loadState, onExternalChange } from './store.js'
 
@@ -90,8 +90,8 @@ function render() {
   set($('message-text'), 'text', message.text)
   set(stage, 'message', String(message.visible))
   if (message.visible && message.sentAt !== lastSentAt) {
-    // Restart the flash animation for every new message.
-    replay($('message'), 'flash')
+    // Blink the box again for every new message.
+    replay($('message'), 'new')
   }
   lastSentAt = message.sentAt
 

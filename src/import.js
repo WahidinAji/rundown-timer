@@ -1,5 +1,5 @@
-// Browser-only import helpers: turns HTML and CSV into the plain text that
-// core.parseText understands, and picks the right reader for a pasted value.
+// Import helpers that need the browser. They turn HTML and CSV into the plain
+// text that core.parseText understands, and pick the right reader for a pasted value.
 import { fromSchedule, parseText } from './core.js'
 
 const clean = (text) => String(text ?? '').replace(/\s+/g, ' ').trim()

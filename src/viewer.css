@@ -50,7 +50,9 @@ p { margin: 0; }
 .clock { font-size: min(3.6vw, 6vh); font-weight: 600; color: #9e9e9e; font-variant-numeric: tabular-nums; }
 .stage[data-phase="over"] .clock { color: #ffd0d0; }
 
-.timer-area { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
+.timer-area { display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; min-height: 0; }
+/* The timer sizes itself to this box, which gets whatever height the title and message leave. */
+.timer-box { container-type: size; width: 100%; display: grid; place-items: center; }
 .timer {
   font-weight: 700;
   line-height: .95;
@@ -62,7 +64,7 @@ p { margin: 0; }
 .stage[data-started="false"] .timer { opacity: .55; }
 .stage[data-started="true"][data-running="false"] .timer { animation: paused 2s steps(2) infinite; }
 @keyframes paused { 50% { opacity: .45; } }
-.status { min-height: 1.2em; font-size: min(3.4vw, 5.6vh); font-weight: 600; color: var(--accent); }
+.status { text-align: center; min-height: 1.2em; font-size: min(3.4vw, 5.6vh); font-weight: 600; color: var(--accent); }
 
 .progress { height: 1.2vh; background: #262626; border-radius: 1vh; overflow: hidden; }
 .progress div { height: 100%; width: 0; background: var(--accent); transition: width .25s linear; }
@@ -76,8 +78,8 @@ p { margin: 0; }
   text-align: center;
 }
 .message p { font-size: min(5.6vw, 9vh); font-weight: 750; line-height: 1.15; overflow-wrap: anywhere; }
-.message.flash { animation: flash .5s ease-in-out 6; }
-@keyframes flash { 50% { background: #fff; } }
+.message.new { animation: message-blink .5s ease-in-out 6; }
+@keyframes message-blink { 50% { background: #fff; } }
 
 .next {
   min-height: 1.3em;
@@ -89,20 +91,18 @@ p { margin: 0; }
 }
 .stage[data-phase="over"] .next { color: #ffd0d0; }
 
-/* Timer only: no title, speaker, clock, status or next. Messages still show. */
+/* The timer-only layout hides the title, speaker, clock, status and next line. Messages still show. */
 .stage[data-layout="timer"] { grid-template-rows: minmax(0, 1fr) auto auto; }
 .stage[data-layout="timer"] :is(.top, .status, .next) { display: none; }
 
-/* The digits take about 0.6em each, so the width limit depends on how many there are. */
-.timer { --fit: 29vw; --tall: 52vh; font-size: min(var(--fit), var(--tall)); }
-.timer[data-length="6"] { --fit: 24.5vw; }
-.timer[data-length="7"] { --fit: 21vw; }
-.timer[data-length="8"] { --fit: 18.5vw; }
-.stage[data-message="true"] .timer { --tall: 34vh; }
-.stage[data-layout="timer"] .timer { --tall: 78vh; }
-.stage[data-layout="timer"][data-message="true"] .timer { --tall: 52vh; }
+/* "45:00" is about 3.05em wide, so 31cqw fills the box with a small margin.
+   Longer values like "+01:23" and "1:30:00" get a smaller size. */
+.timer { --fit: 31cqw; font-size: min(var(--fit), 100cqh); }
+.timer[data-length="6"] { --fit: 25cqw; }
+.timer[data-length="7"] { --fit: 21.5cqw; }
+.timer[data-length="8"] { --fit: 19cqw; }
 
-/* Flash: the whole screen blinks white three times. Blackout stays on top of it. */
+/* Flash blinks the whole screen white three times. Blackout stays on top of it. */
 .flash { position: fixed; inset: 0; z-index: 5; background: #fff; opacity: 0; pointer-events: none; }
 .flash.on { animation: blink .5s steps(1) 6; }
 @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }

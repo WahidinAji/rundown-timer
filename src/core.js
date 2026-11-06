@@ -350,8 +350,8 @@ export const totalOf = (item, live) => Math.max(0, item.duration * 60000 + live.
 export const remainingOf = (item, live, now) => totalOf(item, live) - elapsedOf(live, now)
 export const hasStarted = (live) => live.running || live.elapsed > 0
 
-// Uses the settings as they are, unless a threshold is as long as the segment
-// itself: then it would show from the first second, so it moves to half time.
+// Uses the settings as they are, unless a threshold is as long as the segment.
+// That colour would then show from the first second, so it moves to half time.
 // With the default 5 minutes, a 5-minute lightning talk turns yellow at 2:30.
 export function thresholds(item, settings) {
   const total = item.duration * 60000

@@ -19,9 +19,23 @@
         </div>
       </header>
 
-      <div class="preview">
-        <iframe id="preview" src="viewer.html?preview" title="Stage preview" tabindex="-1"></iframe>
-        <span class="preview-label">Stage preview</span>
+      <div class="preview-bar">
+        <span class="preview-title">What the speakers see</span>
+        <div class="segmented" role="group" aria-label="Preview">
+          <button type="button" data-preview="1">Screen 1</button>
+          <button type="button" data-preview="2">Screen 2</button>
+          <button type="button" data-preview="both">Both</button>
+        </div>
+      </div>
+      <div id="previews" class="previews" data-show="1">
+        <figure class="preview" data-screen="1">
+          <div class="preview-frame"><iframe src="viewer.html?preview&amp;screen=1" title="Screen 1 preview" tabindex="-1"></iframe></div>
+          <figcaption id="preview-caption-1"></figcaption>
+        </figure>
+        <figure class="preview" data-screen="2">
+          <div class="preview-frame"><iframe src="viewer.html?preview&amp;screen=2" title="Screen 2 preview" tabindex="-1"></iframe></div>
+          <figcaption id="preview-caption-2"></figcaption>
+        </figure>
       </div>
 
       <div class="now">
@@ -135,7 +149,7 @@
         <label>Screen 1 shows <select id="setting-screen-1"></select></label>
         <label>Screen 2 shows <select id="setting-screen-2"></select></label>
       </div>
-      <p class="help">Messages appear on both screens. The preview shows screen 1 with everything.</p>
+      <p class="help">Messages appear on both screens. The preview shows each screen with its layout.</p>
       <label>Message presets, one per line
         <textarea id="setting-presets" rows="7"></textarea>
       </label>

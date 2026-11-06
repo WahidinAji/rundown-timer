@@ -2,6 +2,7 @@
   "name": "rundown-timer",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test test/*.test.js"
