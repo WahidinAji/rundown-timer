@@ -5,9 +5,15 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "start": "node server.mjs",
+    "build": "node build.mjs",
+    "preview": "pnpm build && wrangler dev",
+    "deploy": "pnpm build && wrangler deploy",
     "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.158.0"
   }
 }

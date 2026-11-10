@@ -1,6 +1,6 @@
 # Rundown Timer
 
-A stage timer for IDSW. You run the controller on your laptop. Speaker screen 1 shows the countdown, the current talk and what comes next. Speaker screen 2 shows only the countdown. Both show the messages you send. It works offline and has no dependencies.
+A stage timer for IDSW. You run the controller on your laptop. Speaker screen 1 shows the countdown, the current talk and what comes next. Speaker screen 2 shows only the countdown. Both show the messages you send. The local server works offline without dependencies. The Cloudflare version works offline after its first successful cache.
 
 ![The controller during the Day 1 keynote, with both stage screens in the preview](docs/media/controller.gif)
 
@@ -34,7 +34,31 @@ pnpm start         # http://127.0.0.1:4321
 pnpm test
 ```
 
-You need Node.js 20 or newer and pnpm. The app has no dependencies, so there is nothing to install. The `packageManager` field pins pnpm 11.25.0 for Corepack. Set `PORT` or `HOST` to change the address. Use Chrome or Edge on the event laptop.
+You need Node.js 20 or newer and pnpm for the local server. It uses only Node's built-in modules. Cloudflare deployment needs Node.js 22 or newer and the Wrangler dev dependency. The `packageManager` field pins pnpm 11.25.0 for Corepack. Set `PORT` or `HOST` to change the local address. Use Chrome or Edge on the event laptop.
+
+### Cloudflare Workers
+
+This uses Workers Static Assets, not Pages. It needs no database, Worker handler or paid backend.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm exec wrangler login
+pnpm deploy
+```
+
+Wrangler prints your HTTPS `workers.dev` address. Open that address on the event laptop and wait for "Offline ready" in the controller header. Then open both stage windows from the controller. HTTPS enables screen placement and wake lock where the browser supports them.
+
+For a GitHub-connected Workers build, select the standalone `rundown-timer` repository, use `pnpm build` as the build command and `pnpm exec wrangler deploy` as the deploy command. The project root is the repository root. Cloudflare must have permission to read the private repository.
+
+`pnpm preview` runs the build through Wrangler locally. `pnpm build` copies only the app HTML, JavaScript and CSS into `dist/`, then generates a versioned service worker. Tests, README media and the Node server are not deployed.
+
+#### Offline use and updates
+
+The first visit needs internet. Once the header says "Offline ready", the browser has every app file cached. You can reload the controller or open stage windows without internet. Test this by disconnecting before the event. Browser storage can be cleared or evicted, so keep a local copy as a fallback. The local Node server does not register a service worker.
+
+A new deployment waits until all timer tabs and windows close before it activates. If the header says an update is ready, close every controller and stage window, then reopen online before the event. The app does not force an update during a running timer.
+
+Rundowns, queues and timer state stay in the browser's `localStorage`. They do not upload to Cloudflare or sync across devices. Switching from the LAN URL to the Cloudflare URL uses different storage. Export the rundown on the old URL and import it on the new one. Export does not include the queue, active timer or logged actual times.
 
 ### On the homelab
 
