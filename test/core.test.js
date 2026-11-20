@@ -8,20 +8,44 @@ const brief = (item) => [item.start, item.duration, item.kind, item.title, item.
 test('reads the idsw.dev schedule JSON', () => {
   const { timezone, days } = core.fromSchedule(idsw)
   assert.equal(timezone, 'Asia/Jakarta')
+  // Day 2 has 13 sessions. The lightning block with six talks becomes six segments.
   assert.deepEqual(days.map((day) => [day.name, day.date, day.items.length]), [
     ['Day 1', '2026-11-21', 15],
-    ['Day 2', '2026-11-22', 13],
+    ['Day 2', '2026-11-22', 18],
   ])
   const keynote = days[0].items[3]
   assert.deepEqual(brief(keynote), ['09:45', 45, 'keynote', keynote.title, 'Muqorrobin Marufi Syihab (Robin)'])
-  assert.equal(days[0].items[2].pending, 'speaker')
-  assert.equal(days[1].items[8].kind, 'lightning')
+  assert.equal(keynote.role, 'Founder of Nuwaira Academy & Creator of Evonic')
+  assert.deepEqual(brief(days[0].items[6]), ['11:40', 20, 'sponsor', 'Your Agent is too fast', 'Mohammad Maftuqin Ibnin Tsalis'])
+  assert.deepEqual(brief(days[1].items[7]), ['13:30', 20, 'intermezzo', 'Intermezzo - 3 Years of IDSW', ''])
+  const eko = days[1].items[16]
+  assert.deepEqual(brief(eko), ['16:30', 45, 'keynote', '', 'Eko Kurniawan Khannedy'])
+  assert.equal(eko.pending, 'title')
 })
 
-test('exports the same schedule JSON it reads', () => {
+test('splits a lightning block with named talks into one segment per talk', () => {
+  const [, day2] = core.fromSchedule(idsw).days
+  const lightning = day2.items.filter((item) => item.kind === 'lightning')
+  assert.deepEqual(lightning.map((item) => [item.start, item.duration, item.speaker]), [
+    ['14:30', 10, 'Azzam Muhammadi Rizqun Karima'],
+    ['14:40', 10, 'Bagas Wastu'],
+    ['14:50', 10, 'Denny Aditya Pradipta'],
+    ['15:00', 10, 'Irfan Kamil'],
+    ['15:10', 10, 'luthfiyyah hanifah amari'],
+    ['15:20', 10, 'Salahuddin Muhammad Iqbal'],
+  ])
+  assert.equal(lightning[0].title, 'Task Done, Skill Not')
+  assert.equal(day2.items[15].title, 'Coffee Break')
+})
+
+test('exports the schedule JSON fields and reads its own export back', () => {
   const state = core.createState(core.fromSchedule(idsw))
-  const exported = core.toSchedule(state)
-  assert.deepEqual(JSON.parse(JSON.stringify(exported)), idsw)
+  const exported = JSON.parse(JSON.stringify(core.toSchedule(state)))
+  // Every session without talks comes out exactly as the idsw.dev JSON has it.
+  const plain = (day) => day.sessions.filter((session) => session.kind !== 'lightning')
+  assert.deepEqual(exported.days.map(plain), idsw.days.map(plain))
+  const again = core.toSchedule(core.createState(core.fromSchedule(exported)))
+  assert.deepEqual(JSON.parse(JSON.stringify(again)), exported)
 })
 
 // Last year's rundown, copied from the Google Docs table (two days side by side).
@@ -184,10 +208,13 @@ test('reports how far behind schedule the event runs', () => {
 })
 
 test('splits a lightning talk block into equal parts', () => {
-  const state = core.createState(core.fromSchedule(idsw))
-  const block = state.days[1].items[8]
+  const state = core.createState(core.fromSchedule({ days: [{ sessions: [
+    { start: '14:20', end: '15:20', kind: 'lightning', title: 'Lightning talks' },
+    { start: '15:30', end: '16:30', kind: 'coffee', title: 'Coffee Break' },
+  ] }] }))
+  const block = state.days[0].items[0]
   core.splitItem(state, block.id, 6)
-  const parts = state.days[1].items.slice(8, 14)
+  const parts = state.days[0].items.slice(0, 6)
   assert.deepEqual(parts.map((item) => [item.start, item.duration, item.title]), [
     ['14:20', 10, 'Lightning talks 1/6'],
     ['14:30', 10, 'Lightning talks 2/6'],
@@ -196,7 +223,7 @@ test('splits a lightning talk block into equal parts', () => {
     ['15:00', 10, 'Lightning talks 5/6'],
     ['15:10', 10, 'Lightning talks 6/6'],
   ])
-  assert.equal(state.days[1].items[14].title, 'Coffee Break')
+  assert.equal(state.days[0].items[6].title, 'Coffee Break')
 })
 
 test('restores a stored state and fills in new settings', () => {

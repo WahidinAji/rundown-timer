@@ -211,6 +211,7 @@ h1 { font-size: 16px; font-weight: 700; }
 .kind-lightning .badge { color: var(--yellow); }
 .pending { font-style: normal; font-size: 12px; padding: 0 6px; border: 1px dashed #666; border-radius: 4px; }
 .note { font-size: 12px; color: #c2b27a; }
+.role { font-size: 12px; color: #7d7d7d; }
 .item-actual { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .late { color: #ff9a8f; }
 .early { color: #8cc4ff; }
@@ -230,7 +231,8 @@ h1 { font-size: 16px; font-weight: 700; }
   grid-template-columns: 132px 86px 150px minmax(0, 1fr) auto;
   grid-template-areas:
     "start duration kind title title"
-    "speaker speaker speaker note actions";
+    "speaker speaker speaker role role"
+    "note note note note actions";
   gap: 6px;
   padding: 10px;
   margin-bottom: 6px;
@@ -243,6 +245,7 @@ h1 { font-size: 16px; font-weight: 700; }
 .f-kind { grid-area: kind; }
 .f-title { grid-area: title; }
 .f-speaker { grid-area: speaker; }
+.f-role { grid-area: role; }
 .f-note { grid-area: note; }
 .row-actions { grid-area: actions; display: flex; gap: 6px; justify-content: flex-end; }
 .add-item { margin: 0 18px 24px; }

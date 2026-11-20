@@ -12,6 +12,7 @@ export const KINDS = {
   sponsor: 'Sponsor',
   lightning: 'Lightning talks',
   panel: 'Panel',
+  intermezzo: 'Intermezzo',
   lunch: 'Lunch',
   coffee: 'Coffee break',
   break: 'Break',
@@ -77,16 +78,17 @@ export function guessKind({ title = '', speaker = '', label = '' }) {
     [/sponsor/i, 'sponsor'],
     [/lightning/i, 'lightning'],
     [/panel/i, 'panel'],
+    [/intermezzo/i, 'intermezzo'],
     [/opening|pembukaan/i, 'opening'],
     [/closing|penutup/i, 'closing'],
   ]
   return rules.find(([pattern]) => pattern.test(text))?.[1] ?? (speaker ? 'talk' : 'session')
 }
 
-// Turns loose entries ({ start, end?, duration?, title, speaker?, kind?, pending?, note? })
-// into rundown items. A missing duration comes from the end time, or else from
-// the next entry's start. With `expand`, "Lightning Talks (6 @ 5 min)" becomes
-// six segments.
+// Turns loose entries ({ start, end?, duration?, title, speaker?, role?, kind?, pending?,
+// note?, talks? }) into rundown items. A missing duration comes from the end time,
+// or else from the next entry's start. A `talks` list splits the block into one
+// segment per talk. With `expand`, "Lightning Talks (6 @ 5 min)" becomes six segments.
 export function itemsFrom(entries = [], { expand = false } = {}) {
   const valid = entries.filter((entry) => minutesOf(entry.start) != null)
   return valid.flatMap((entry, i) => {
@@ -104,9 +106,24 @@ export function itemsFrom(entries = [], { expand = false } = {}) {
       duration: Math.max(0, Math.round(duration)),
       title,
       speaker,
+      role: clean(entry.role),
       kind: Object.hasOwn(KINDS, entry.kind ?? '') ? entry.kind : guessKind({ title, speaker, label: entry.label }),
       pending: PENDING.includes(entry.pending) ? entry.pending : null,
       note: clean(entry.note),
+    }
+
+    const talks = Array.isArray(entry.talks) ? entry.talks.filter((talk) => clean(talk?.title) || clean(talk?.speaker)) : []
+    if (talks.length) {
+      return evenParts(item.duration, talks.length).map((part, n) => ({
+        ...item,
+        id: n === 0 ? item.id : newId(),
+        start: hhmm(start + part.offset),
+        duration: part.duration,
+        title: clean(talks[n].title),
+        speaker: clean(talks[n].speaker),
+        role: clean(talks[n].role),
+        pending: null,
+      }))
     }
 
     const lightning = expand && /\((\d+)\s*[@x×]\s*(\d+)\s*min\)/i.exec(title)
@@ -123,6 +140,15 @@ export function itemsFrom(entries = [], { expand = false } = {}) {
       kind: 'lightning',
     }))
   })
+}
+
+// Whole minutes for each of `count` parts. The last part takes the remainder.
+function evenParts(total, count) {
+  const each = Math.floor(total / count)
+  return Array.from({ length: count }, (_, n) => ({
+    offset: n * each,
+    duration: n === count - 1 ? total - each * (count - 1) : each,
+  }))
 }
 
 // Reads the idsw.dev schedule JSON ({ days: [{ day, date, label, sessions }] })
@@ -149,20 +175,16 @@ export function toSchedule(state) {
       day: day.name,
       date: day.date || undefined,
       label: day.label || undefined,
-      sessions: day.items.map((item, i) => {
-        const next = day.items[i + 1]
-        return {
-          start: item.start,
-          end: endOf(item),
-          title: item.title,
-          speaker: item.speaker || null,
-          kind: item.kind,
-          pending: item.pending,
-          duration: item.duration,
-          transition: next ? Math.max(0, minutesOf(next.start) - minutesOf(item.start) - item.duration) : 0,
-          ...(item.note && { note: item.note }),
-        }
-      }),
+      sessions: day.items.map((item) => ({
+        start: item.start,
+        end: endOf(item),
+        kind: item.kind,
+        title: item.title || null,
+        speaker: item.speaker || null,
+        role: item.role || null,
+        pending: item.pending,
+        ...(item.note && { note: item.note }),
+      })),
     })),
   }
 }
@@ -519,13 +541,12 @@ export function splitItem(state, itemId, parts) {
   const at = findItem(state, itemId)
   if (!at || parts < 2) return
   const { item } = at
-  const each = Math.floor(item.duration / parts)
   const base = item.title.replace(/\s+\d+\/\d+$/, '')
-  const pieces = Array.from({ length: parts }, (_, n) => ({
+  const pieces = evenParts(item.duration, parts).map((part, n) => ({
     ...item,
     id: n === 0 ? item.id : newId(),
-    start: hhmm(minutesOf(item.start) + n * each),
-    duration: n === parts - 1 ? item.duration - each * (parts - 1) : each,
+    start: hhmm(minutesOf(item.start) + part.offset),
+    duration: part.duration,
     title: `${base} ${n + 1}/${parts}`,
     pending: null,
   }))

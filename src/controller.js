@@ -105,9 +105,10 @@ function itemRow(item) {
       h('span', { class: 'item-time' }, item.start, h('small', {}, core.endOf(item))),
       h('span', { class: 'item-duration' }, item.duration ? `${item.duration}m` : '—'),
       h('span', { class: 'item-what' },
-        h('span', { class: 'item-title' }, core.LABELLED_KINDS.includes(item.kind) && h('em', { class: 'badge' }, core.KINDS[item.kind]), item.title || 'Untitled'),
+        h('span', { class: 'item-title' }, core.LABELLED_KINDS.includes(item.kind) && h('em', { class: 'badge' }, core.KINDS[item.kind]), item.title || core.KINDS[item.kind]),
         (item.speaker || item.pending || item.note) && h('span', { class: 'item-speaker' },
           item.speaker,
+          item.speaker && item.role && h('span', { class: 'role' }, item.role),
           item.pending && h('em', { class: 'pending' }, `${item.pending} TBA`),
           item.note && h('span', { class: 'note' }, item.note),
         ),
@@ -152,6 +153,8 @@ function editRow(item) {
       onchange: (event) => update({ title: event.target.value.trim() }) }),
     h('input', { class: 'f-speaker', value: item.speaker, placeholder: item.pending === 'speaker' ? 'Speaker TBA' : 'Speaker', 'aria-label': 'Speaker',
       onchange: (event) => update({ speaker: event.target.value.trim() }) }),
+    h('input', { class: 'f-role', value: item.role, placeholder: 'Role (not on stage)', 'aria-label': 'Role',
+      onchange: (event) => update({ role: event.target.value.trim() }) }),
     h('input', { class: 'f-note', value: item.note, placeholder: 'Private note (not on stage)', 'aria-label': 'Note',
       onchange: (event) => update({ note: event.target.value.trim() }) }),
     h('span', { class: 'row-actions' },
@@ -268,7 +271,7 @@ function addItem() {
     const items = s.days[dayIndex].items
     const last = items.at(-1)
     const start = last ? core.minutesOf(last.start) + last.duration + 5 : 9 * 60
-    items.push({ id: core.newId(), start: core.hhmm(start), duration: 30, title: '', speaker: '', kind: 'talk', pending: null, note: '' })
+    items.push({ id: core.newId(), start: core.hhmm(start), duration: 30, title: '', speaker: '', role: '', kind: 'talk', pending: null, note: '' })
   })
   $('items').querySelector('li.item:last-of-type .f-title')?.focus()
 }

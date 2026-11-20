@@ -10,152 +10,137 @@ export default {
         {
           "start": "08:00",
           "end": "09:00",
+          "kind": "registration",
           "title": "Registration",
           "speaker": null,
-          "kind": "registration",
-          "pending": null,
-          "duration": 60,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "09:00",
           "end": "09:15",
+          "kind": "opening",
           "title": "Opening",
           "speaker": null,
-          "kind": "opening",
-          "pending": null,
-          "duration": 15,
-          "transition": 5
+          "role": null,
+          "pending": null
         },
         {
           "start": "09:20",
           "end": "09:40",
-          "title": "Sponsor Talk A",
-          "speaker": null,
           "kind": "sponsor",
-          "pending": "speaker",
-          "duration": 20,
-          "transition": 5
+          "title": "Sponsor talk",
+          "speaker": null,
+          "role": null,
+          "pending": null
         },
         {
           "start": "09:45",
           "end": "10:30",
+          "kind": "keynote",
           "title": "Run your organization with agentic AI powered by local LLMs, enabling faster, smarter, and more secure workflows at scale",
           "speaker": "Muqorrobin Marufi Syihab (Robin)",
-          "kind": "keynote",
-          "pending": null,
-          "duration": 45,
-          "transition": 5
+          "role": "Founder of Nuwaira Academy & Creator of Evonic",
+          "pending": null
         },
         {
           "start": "10:35",
           "end": "11:05",
+          "kind": "talk",
           "title": "The System Worked. The Organization Didn’t.",
           "speaker": "Iman Fattah",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
+          "role": "Founder of Alun",
+          "pending": null
         },
         {
           "start": "11:10",
           "end": "11:40",
+          "kind": "talk",
           "title": "Before and After Agentic Coding in a Heavily Regulated Financial Industry: Did We Actually Get Faster?",
           "speaker": "Thomas Edwin Santosa",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 0
+          "role": "Senior Software Engineer at DKatalis",
+          "pending": null
         },
         {
           "start": "11:40",
           "end": "12:00",
-          "title": "Sponsor Talk B",
-          "speaker": null,
           "kind": "sponsor",
-          "pending": "speaker",
-          "duration": 20,
-          "transition": 0
+          "title": "Your Agent is too fast",
+          "speaker": "Mohammad Maftuqin Ibnin Tsalis",
+          "role": "Head of Engineering Midtrans",
+          "pending": null
         },
         {
           "start": "12:00",
           "end": "13:30",
+          "kind": "lunch",
           "title": "Lunch Break",
           "speaker": null,
-          "kind": "lunch",
-          "pending": null,
-          "duration": 90,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "13:30",
           "end": "14:15",
+          "kind": "keynote",
           "title": "Inference Engineering: Innerworking of Fast LLM Serving",
           "speaker": "Mustafa Zaki Assagaf",
-          "kind": "keynote",
-          "pending": null,
-          "duration": 45,
-          "transition": 5
+          "role": "Platform Engineer",
+          "pending": null
         },
         {
           "start": "14:20",
           "end": "14:50",
+          "kind": "talk",
           "title": "import zerotrust: Network Security as a Dependency, Not a Ticket",
           "speaker": "Affan Basalamah",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
+          "role": "CTO at Salamah Systems",
+          "pending": null
         },
         {
           "start": "14:55",
           "end": "15:25",
+          "kind": "talk",
           "title": "From Air to Packets and Back: How Voice Travels Between Devices",
           "speaker": "Yoseph Bernandus",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
+          "role": "Software Engineer at RevComm Inc",
+          "pending": null
         },
         {
           "start": "15:30",
           "end": "16:30",
+          "kind": "coffee",
           "title": "Coffee Break",
           "speaker": null,
-          "kind": "coffee",
-          "pending": null,
-          "duration": 60,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "16:30",
           "end": "17:00",
+          "kind": "talk",
           "title": "From Chatbot to Analytics Agent: What Broke When LLMs Met Our Real BigQuery Data",
           "speaker": "Faiq Miftakhul Falakh",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
+          "role": "Data/AI Team at AssetFindr",
+          "pending": null
         },
         {
           "start": "17:05",
           "end": "18:05",
-          "title": "Discussion panel",
-          "speaker": null,
           "kind": "panel",
-          "pending": "subject",
-          "duration": 60,
-          "transition": 0
+          "title": "Panel discussion",
+          "speaker": null,
+          "role": null,
+          "pending": null
         },
         {
           "start": "18:05",
           "end": "18:15",
+          "kind": "closing",
           "title": "Closing",
           "speaker": null,
-          "kind": "closing",
-          "pending": null,
-          "duration": 10,
-          "transition": 0
+          "role": null,
+          "pending": null
         }
       ]
     },
@@ -167,132 +152,145 @@ export default {
         {
           "start": "09:00",
           "end": "09:30",
+          "kind": "registration",
           "title": "Registration",
           "speaker": null,
-          "kind": "registration",
-          "pending": null,
-          "duration": 30,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "09:30",
           "end": "09:40",
+          "kind": "opening",
           "title": "Opening",
           "speaker": null,
-          "kind": "opening",
-          "pending": null,
-          "duration": 10,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "09:40",
           "end": "10:00",
-          "title": "Sponsor Talk C",
-          "speaker": null,
           "kind": "sponsor",
-          "pending": "speaker",
-          "duration": 20,
-          "transition": 5
+          "title": "Moving Fast Without Breaking the Bank: Our First 100 Days with AI Coding Assistants at BRI",
+          "speaker": "Winny Ardhian Septiko",
+          "role": "Senior Manager System Analyst & Design at BRI",
+          "pending": null
         },
         {
           "start": "10:05",
           "end": "10:50",
+          "kind": "keynote",
           "title": "Pesan Systems Engineering Modern dalam Membangun Purwarupa AI ke Sistem Produksi yang Aman, Teruji, dan Layak Dipercaya",
           "speaker": "Mansur Maturidi Arief",
-          "kind": "keynote",
-          "pending": null,
-          "duration": 45,
-          "transition": 5
+          "role": "Assistant Professor at KFUPM",
+          "pending": null
         },
         {
           "start": "10:55",
           "end": "11:25",
+          "kind": "talk",
           "title": "(Human) Attention is All You Need",
           "speaker": "Zain Fathoni",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
+          "role": "Senior Software Engineer at BookThatApp",
+          "pending": null
         },
         {
           "start": "11:30",
           "end": "12:00",
-          "title": "Front-End Job is Dying: What I Own as a Design Engineer",
-          "speaker": "theodorusclarence",
           "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 0
+          "title": "Front-End Job is Dying: What I Own as a Design Engineer",
+          "speaker": "Theodorus Clarence",
+          "role": "Design Engineer at fireflies.ai",
+          "pending": null
         },
         {
           "start": "12:00",
           "end": "13:30",
+          "kind": "lunch",
           "title": "Lunch Break",
           "speaker": null,
-          "kind": "lunch",
-          "pending": null,
-          "duration": 90,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "13:30",
-          "end": "14:15",
-          "title": "Keynote",
-          "speaker": "Eko Kurniawan Khannedy",
-          "kind": "keynote",
-          "pending": "title",
-          "duration": 45,
-          "transition": 5
+          "end": "13:50",
+          "kind": "intermezzo",
+          "title": "Intermezzo - 3 Years of IDSW",
+          "speaker": null,
+          "role": null,
+          "pending": null
         },
         {
-          "start": "14:20",
-          "end": "15:20",
+          "start": "13:55",
+          "end": "14:25",
+          "kind": "talk",
+          "title": "Building a Browser Engine with AI Is Harder Than You Think",
+          "speaker": "Kresna Satya",
+          "role": null,
+          "pending": null
+        },
+        {
+          "start": "14:30",
+          "end": "15:30",
+          "kind": "lightning",
           "title": "Lightning talks",
           "speaker": null,
-          "kind": "lightning",
-          "pending": "order",
-          "duration": 60,
-          "transition": 10
+          "role": null,
+          "pending": null,
+          "talks": [
+            {
+              "title": "Task Done, Skill Not",
+              "speaker": "Azzam Muhammadi Rizqun Karima"
+            },
+            {
+              "title": "Everything Has an API If You're Willing to Prompt",
+              "speaker": "Bagas Wastu"
+            },
+            {
+              "title": "Mencegah Secrets Bocor ke LLM Agent dengan SOPS",
+              "speaker": "Denny Aditya Pradipta"
+            },
+            {
+              "title": "Untuk Internal: Bangun Tool Sendiri, Langganan, atau On-premise Opensource?",
+              "speaker": "Irfan Kamil"
+            },
+            {
+              "title": "What Good Mentorship Felt Like to Me as a Junior Engineer",
+              "speaker": "luthfiyyah hanifah amari"
+            },
+            {
+              "title": "Tokenomics of Testing",
+              "speaker": "Salahuddin Muhammad Iqbal"
+            }
+          ]
         },
         {
           "start": "15:30",
           "end": "16:30",
+          "kind": "coffee",
           "title": "Coffee Break",
           "speaker": null,
-          "kind": "coffee",
-          "pending": null,
-          "duration": 60,
-          "transition": 0
+          "role": null,
+          "pending": null
         },
         {
           "start": "16:30",
-          "end": "17:00",
-          "title": "Building a Browser Engine with Swift and Guardrails for AI Assistance",
-          "speaker": "Kresna Satya",
-          "kind": "talk",
-          "pending": null,
-          "duration": 30,
-          "transition": 5
-        },
-        {
-          "start": "17:05",
-          "end": "17:50",
-          "title": "Something related to LLM to binary/machine code",
-          "speaker": "Aria Ghora",
+          "end": "17:15",
           "kind": "keynote",
-          "pending": "title",
-          "duration": 45,
-          "transition": 5
+          "title": null,
+          "speaker": "Eko Kurniawan Khannedy",
+          "role": "Technical Architect at Blibli & Founder of Programmer Zaman Now",
+          "pending": "title"
         },
         {
-          "start": "17:55",
-          "end": "18:15",
+          "start": "17:20",
+          "end": "17:40",
+          "kind": "closing",
           "title": "Closing",
           "speaker": null,
-          "kind": "closing",
-          "pending": null,
-          "duration": 20,
-          "transition": 0
+          "role": null,
+          "pending": null
         }
       ]
     }

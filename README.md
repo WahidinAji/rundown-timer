@@ -121,17 +121,19 @@ The preview at the top of the controller shows what the speakers see. Pick Scree
 
 ## Rundown data
 
-On first run the app loads the IDSW 2026 schedule from `src/idsw-2026.js`, the same JSON the idsw.dev schedule uses. **Import** accepts:
+On first run the app loads the IDSW 2026 schedule from `src/idsw-2026.js`, the same JSON the idsw.dev schedule uses. A browser that already has a saved rundown keeps it. To load the current schedule there, open **Settings** and click **Restore IDSW 2026 rundown**. **Import** accepts:
 
-- the idsw.dev schedule JSON, or a file from **Export**, which writes the same format,
+- the idsw.dev schedule JSON, or a file from **Export**, which writes the same fields (`start`, `end`, `kind`, `title`, `speaker`, `role`, `pending`) with one session per segment,
 - the idsw.dev page saved as HTML, or its schedule section,
 - text selected and copied from the website schedule,
 - a table pasted from Google Docs or Sheets, including the two-days-side-by-side layout from 2025,
 - CSV, or one segment per line such as `10:35 - 11:05 Talk title`.
 
-`Lightning Talks (6 @ 5 min)` in pasted text becomes six 5-minute segments. For a lightning block without a count, click **Edit**, then **Split** on the block.
+A session with a `talks` list becomes one segment per talk, with the block's time split evenly. The Day 2 lightning block has six talks in 60 minutes, so each talk gets 10 minutes and its own title and speaker on stage. `Lightning Talks (6 @ 5 min)` in pasted text becomes six 5-minute segments. For a lightning block without talks or a count, click **Edit**, then **Split** on the block.
 
-In edit mode you can change times, durations, kinds, titles and speakers. Changing a start time re-sorts the day. Private notes stay on the controller and never appear on stage. A `pending` value from the schedule JSON shows as "speaker TBA". It clears when you fill in the missing speaker or title, or split the block.
+The rundown shows each speaker's `role` from the schedule JSON next to their name. The role stays on the controller and does not appear on stage. A session with no title shows its kind in the rundown, such as "Keynote", and only the speaker's name on stage.
+
+In edit mode you can change times, durations, kinds, titles, speakers and roles. Changing a start time re-sorts the day. Private notes stay on the controller and never appear on stage. A `pending` value from the schedule JSON shows as a tag such as "title TBA". It clears when you fill in the missing speaker or title, or split the block.
 
 Importing or restoring the IDSW rundown replaces the current rundown and clears the logged actual times. Export a copy first if you need them.
 
